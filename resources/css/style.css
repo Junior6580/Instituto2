@@ -1,0 +1,15 @@
+
+
+form {
+    max-width: 400px;
+    margin: 20px auto;
+  }
+  
+  label, select, input, button {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 8px 16px;
+  }
