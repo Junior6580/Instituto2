@@ -24,7 +24,7 @@
 
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
             © 2023 Copyright:
-            <a class="text-dark" href="{{ route('home') }}">EscuadronS74.com</a>
+            <a class="text-dark" href="{{ route('home') }}">Instituto.com</a>
         </div>
     </footer>
 @endsection

@@ -12,12 +12,16 @@
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
-                        <div class="card card-primary">
+                        <button id="showChartBtn" class="btn btn-primary">Ver Promedios</button>
+                        <div class="card card-primary" id="chartContainer" style="display: none;">
                             <div class="card-header">
                                 <h6 class="card-title">Promedios</h6>
                             </div>
                             <div class="card-body">
-                                <div class="chart">
+                                <!-- Botón para mostrar la gráfica -->
+
+                                <!-- Contenedor de la gráfica oculto inicialmente -->
+                                <div class="chart mt-3">
                                     <canvas id="areaChart"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
@@ -40,9 +44,9 @@
                                 <table id="datatable" class="table table-sm table-striped">
                                     <thead class="bg-danger text-white">
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Persona Id</th>
-                                            <th>Grado Id</th>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Grado</th>
                                             <th>Jornada</th>
                                             @can('getalumnoadd')
                                                 <th style="width: 200px;"><a href="{{ route('colegio.alumno.add') }}"
@@ -58,20 +62,20 @@
                                                 <td>{{ $alumno->id }}</td>
                                                 @foreach ($personas as $persona)
                                                     @if ($alumno->persona_id == $persona->id)
-                                                        <td>{{ $alumno->persona_id }} {{ $persona->primer_nombre }}
+                                                        <td>{{ $persona->primer_nombre }}
                                                             {{ $persona->primer_apellido }}</td>
                                                     @break
                                                 @endif
                                             @endforeach
                                             @foreach ($grados as $grado)
                                                 @if ($alumno->grado_id == $grado->id)
-                                                    <td>{{ $alumno->grado_id }} {{ $grado->nombre }}</td>
+                                                    <td>{{ $grado->nombre }}</td>
                                                 @break
                                             @endif
                                         @endforeach
                                         @foreach ($jornadas as $jornada)
                                             @if ($alumno->jornada_id == $jornada->id)
-                                                <td>{{ $alumno->jornada_id }} {{ $jornada->nombre }}</td>
+                                                <td>{{ $jornada->nombre }}</td>
                                             @break
                                         @endif
                                     @endforeach
@@ -110,8 +114,15 @@
 
 
 @section('scripts')
-
 <script>
+    // Mostrar la gráfica al hacer clic en el botón
+    document.getElementById('showChartBtn').addEventListener('click', function () {
+        // Mostrar el contenedor de la gráfica
+        document.getElementById('chartContainer').style.display = 'block';
+        // Ocultar el botón una vez que se muestra la gráfica
+        this.style.display = 'none';
+    });
+
     var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 
     var areaChartData = {
@@ -150,16 +161,12 @@
         }
     }
 
-    // This will get the first returned node in the jQuery collection.
+    // Esta línea generará la gráfica una vez que el elemento canvas esté visible
     new Chart(areaChartCanvas, {
         type: 'line',
         data: areaChartData,
         options: areaChartOptions
     })
 </script>
-
-@show
-
-@section('dataTables')
 @show
 @endsection
